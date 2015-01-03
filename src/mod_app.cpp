@@ -2810,7 +2810,12 @@ extern "C" void glGetTexEnvfv(GLenum target, GLenum pname, GLfloat * params){
 
 //277
 extern "C" void glGetTexEnviv(GLenum target, GLenum pname, GLint * params){
-	LOG("Called unimplemted stub GetTexEnviv!\n");
+        //LOG("Called untested stub GetTexEnviv!\n");
+	pushOp(277);
+	pushParam(target);
+	pushParam(pname);
+	pushBuf(params, sizeof(GLint) *  getTextureParamSize(pname), true);
+	waitForReturn();
 }
 
 //278
