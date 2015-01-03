@@ -18,6 +18,7 @@ int getTextureParamSize(GLenum type){
 	case GL_TEXTURE_ALPHA_SIZE: return 1;
 	case GL_TEXTURE_LUMINANCE_SIZE: return 1;
 	case GL_TEXTURE_INTENSITY_SIZE: return 1;
+        case GL_TEXTURE_ENV_MODE: return 1;
 	default: LOG("DEFAULTED getTextureParamSize!\n"); return 1;
 	}
 }
@@ -386,6 +387,7 @@ int getGetSize(GLenum type){
 	case GL_VERTEX_ARRAY_TYPE: return 1;
 	case GL_VERTEX_PROGRAM_POINT_SIZE: return 1;
 	case GL_VERTEX_PROGRAM_TWO_SIDE: return 1;
+        case GL_VERTEX_ARRAY_BINDING: return 1;
 	case GL_VIEWPORT: return 4;
 	case GL_ZOOM_X: return 1;
 	case GL_ZOOM_Y: return 1;
