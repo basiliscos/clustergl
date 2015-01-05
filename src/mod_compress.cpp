@@ -103,6 +103,7 @@ int Compression::decompress(void *dest, int destLen, int sourceLen)
 	}
 	else {
 		memcpy(dest, source, sourceLen);
+                //newDest = sourceLen;
 	}
 	return (int)newDest;
 }

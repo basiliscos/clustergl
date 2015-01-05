@@ -80,6 +80,7 @@ bool NetSrvModule::process(vector<Instruction *> *list)
 	iInstructionCount = 0;
 
 	int len = internalRead((byte *)&num, sizeof(uint32_t));
+        if(!len) return false; // EOF
 	if(len != sizeof(uint32_t) ) {
 		LOG("Read error\n");
 		return false;
@@ -112,7 +113,6 @@ bool NetSrvModule::process(vector<Instruction *> *list)
 			LOG("Read error 2 (%d, %d)\n", r, l);
 			return false;
 		}
-		
 		//LOG_INSTRUCTION(i);	
 
 		//Now see if we're expecting any buffers
@@ -192,7 +192,8 @@ int NetSrvModule::internalRead(byte *input, int nByte)
 	if(bytesRemaining <= 0){
 		recieveBuffer();
 	}
-	
+        if(!bytesRemaining) return 0; //EOF
+        //LOG("Read: %d (%d)\n", nByte, bytesRemaining);
 	memcpy(input, mRecieveBuf + iRecieveBufPos, nByte);
 	iRecieveBufPos += nByte;
 	bytesRemaining -= nByte;
@@ -206,7 +207,10 @@ void NetSrvModule::recieveBuffer(void)
 	int compSize = 0;	
 	
 	//first read the original number of bytes coming
-	mClientSocket->read((byte *)&bytesRemaining, sizeof(uint32_t));
+        //LOG("read attempt\n");
+	int bytes_read = mClientSocket->read((byte *)&bytesRemaining, sizeof(uint32_t));
+        //LOG("bytes read: %d\n", bytes_read);
+        if(!bytes_read) return; // EOF
 	
 	//LOG("Reading %d\n", bytesRemaining);
 	totalRead += bytesRemaining;
@@ -215,6 +219,7 @@ void NetSrvModule::recieveBuffer(void)
 	if(gConfig->networkCompression){
 		int n = mClientSocket->read(Compression::getBuf(), bytesRemaining);
 		bytesRemaining = Compression::decompress(mRecieveBuf, recieveBufferSize, n);
+                //LOG("read compressed: %d -> %d\n", n, bytesRemaining);
 	}else{
 		mClientSocket->read(mRecieveBuf, bytesRemaining);
 	}

@@ -1970,7 +1970,7 @@ extern "C" void glTexImage2D(GLenum target, GLint level, GLint internalformat, G
     pushParam(type);
     
     //if(pixels) {
-	pushParam(true);
+    //pushParam(true);
 	
 	//int len = getFormatSize(format) * getTypeSize(type) * width * height;// * getTypeSize(type);
 	int len = getFormatSize(format) * width * height;
@@ -3288,7 +3288,6 @@ extern "C" void glDeleteTextures(GLsizei n, const GLuint * textures){
 	pushOp(327);
 	pushParam(n);
 	pushBuf(textures, sizeof(const GLuint *) * n, true);
-	waitForReturn();
 }
 
 //328

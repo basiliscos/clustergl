@@ -205,6 +205,7 @@ void NetClientModule::sendBuffer()
 		}		
 		totalSent += a;
 		totalSent += b;
+                //LOG("sent %d + %d = %d\n", a, b, a + b);
 	}
 	//LOG("sent ok\n");
 	iSendBufPos = 0;
